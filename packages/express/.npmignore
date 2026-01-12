@@ -1,0 +1,23 @@
+# Source files
+src/
+
+# Test files
+*.test.ts
+*.spec.ts
+__tests__/
+
+# Build configuration
+tsconfig.json
+tsup.config.ts
+vitest.config.ts
+
+# Development files
+.turbo/
+coverage/
+node_modules/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo

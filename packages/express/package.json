@@ -1,0 +1,72 @@
+{
+  "name": "@a2akit/express",
+  "version": "0.1.0",
+  "description": "Express.js adapter for @a2akit/core A2A protocol servers",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a2akit/a2akit.git",
+    "directory": "packages/express"
+  },
+  "bugs": {
+    "url": "https://github.com/a2akit/a2akit/issues"
+  },
+  "homepage": "https://github.com/a2akit/a2akit/tree/main/packages/express#readme",
+  "keywords": [
+    "a2a",
+    "express",
+    "agent",
+    "ai",
+    "middleware",
+    "protocol",
+    "json-rpc"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "@a2akit/core": "^0.1.0",
+    "express": "^4.18.0 || ^5.0.0"
+  },
+  "devDependencies": {
+    "@a2akit/core": "workspace:*",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/supertest": "^6.0.2",
+    "express": "^4.21.0",
+    "supertest": "^7.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0",
+    "@vitest/coverage-v8": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
