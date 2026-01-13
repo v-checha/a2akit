@@ -1,6 +1,6 @@
 {
   "name": "@a2akit/express",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Express.js adapter for @a2akit/core A2A protocol servers",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -51,7 +51,7 @@
   "author": "",
   "license": "MIT",
   "peerDependencies": {
-    "@a2akit/core": "^0.1.0",
+    "@a2akit/core": "^0.2.0",
     "express": "^4.18.0 || ^5.0.0"
   },
   "devDependencies": {
