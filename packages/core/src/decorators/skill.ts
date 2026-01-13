@@ -1,5 +1,5 @@
 /**
- * @skill and @streaming method decorators
+ * @Skill and @Streaming method decorators
  */
 
 import 'reflect-metadata';
@@ -10,7 +10,7 @@ import {
 } from './metadata.js';
 
 /**
- * Options for the @skill decorator
+ * Options for the @Skill decorator
  */
 export interface SkillOptions {
   /** Skill ID (defaults to method name) */
@@ -34,17 +34,17 @@ export interface SkillOptions {
  *
  * @example
  * ```typescript
- * @skill({
+ * @Skill({
  *   name: 'Greet',
  *   description: 'Greet the user',
  *   tags: ['greeting']
  * })
- * async greet(@textPart() name: string): Promise<string> {
+ * async greet(@TextPart() name: string): Promise<string> {
  *   return `Hello, ${name}!`;
  * }
  * ```
  */
-export function skill(options: SkillOptions): MethodDecorator {
+export function Skill(options: SkillOptions): MethodDecorator {
   return function (
     target: object,
     propertyKey: string | symbol,
@@ -80,19 +80,19 @@ export function skill(options: SkillOptions): MethodDecorator {
 
 /**
  * Method decorator for marking a skill as streaming
- * Must be used together with @skill
+ * Must be used together with @Skill
  *
  * @example
  * ```typescript
- * @skill({ name: 'Stream', description: 'Stream response' })
- * @streaming()
- * async *streamResponse(@textPart() input: string): AsyncGenerator<string> {
+ * @Skill({ name: 'Stream', description: 'Stream response' })
+ * @Streaming()
+ * async *streamResponse(@TextPart() input: string): AsyncGenerator<string> {
  *   yield 'Part 1...';
  *   yield 'Part 2...';
  * }
  * ```
  */
-export function streaming(): MethodDecorator {
+export function Streaming(): MethodDecorator {
   return function (
     target: object,
     propertyKey: string | symbol,

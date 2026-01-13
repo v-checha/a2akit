@@ -1,8 +1,8 @@
 import 'reflect-metadata';
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import Fastify, { type FastifyInstance } from 'fastify';
 import { createA2APlugin } from './plugin.js';
-import { A2AAgent, skill, streaming, textPart } from '@a2akit/core';
+import { A2AAgent, Skill, Streaming, TextPart } from '@a2akit/core';
 
 // Test agent
 @A2AAgent({
@@ -11,19 +11,19 @@ import { A2AAgent, skill, streaming, textPart } from '@a2akit/core';
   version: '1.0.0',
 })
 class TestAgent {
-  @skill({ id: 'greet', name: 'Greet', description: 'Greet the user' })
-  greet(@textPart() name: string): string {
+  @Skill({ id: 'greet', name: 'Greet', description: 'Greet the user' })
+  greet(@TextPart() name: string): string {
     return `Hello, ${name}!`;
   }
 
-  @skill({ id: 'error', name: 'Error', description: 'Throw an error' })
+  @Skill({ id: 'error', name: 'Error', description: 'Throw an error' })
   error(): string {
     throw new Error('Test error');
   }
 
-  @skill({ id: 'stream', name: 'Stream', description: 'Stream response' })
-  @streaming()
-  async *stream(@textPart() input: string): AsyncGenerator<string> {
+  @Skill({ id: 'stream', name: 'Stream', description: 'Stream response' })
+  @Streaming()
+  async *stream(@TextPart() input: string): AsyncGenerator<string> {
     yield `Chunk 1: ${input}`;
     yield 'Chunk 2';
   }

@@ -22,14 +22,14 @@ export {
 export { A2AAgent, type A2AAgentOptions } from './agent.js';
 
 // Method decorators
-export { skill, streaming, type SkillOptions } from './skill.js';
+export { Skill, Streaming, type SkillOptions } from './skill.js';
 
 // Parameter decorators
 export {
-  textPart,
-  filePart,
-  dataPart,
-  message,
-  taskContext,
-  parts,
+  TextPart,
+  FilePart,
+  DataPart,
+  Message,
+  TaskContext,
+  Parts,
 } from './params.js';

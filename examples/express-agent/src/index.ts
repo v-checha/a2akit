@@ -7,9 +7,9 @@ import 'reflect-metadata';
 import express from 'express';
 import {
   A2AAgent,
-  skill,
-  streaming,
-  textPart,
+  Skill,
+  Streaming,
+  TextPart,
 } from '@a2akit/core';
 import { createA2ARouter, a2aErrorHandler } from '@a2akit/express';
 
@@ -25,14 +25,14 @@ class CalculatorAgent {
   /**
    * Add two numbers
    */
-  @skill({
+  @Skill({
     id: 'add',
     name: 'Add',
     description: 'Add two numbers (format: "a + b")',
     tags: ['math', 'arithmetic'],
     examples: ['3 + 5', '10 + 20'],
   })
-  async add(@textPart() input: string): Promise<string> {
+  async add(@TextPart() input: string): Promise<string> {
     const match = input.match(/(-?\d+(?:\.\d+)?)\s*\+\s*(-?\d+(?:\.\d+)?)/);
     if (!match) {
       return 'Please provide two numbers in format: "a + b"';
@@ -45,13 +45,13 @@ class CalculatorAgent {
   /**
    * Subtract two numbers
    */
-  @skill({
+  @Skill({
     id: 'subtract',
     name: 'Subtract',
     description: 'Subtract two numbers (format: "a - b")',
     tags: ['math', 'arithmetic'],
   })
-  async subtract(@textPart() input: string): Promise<string> {
+  async subtract(@TextPart() input: string): Promise<string> {
     const match = input.match(/(-?\d+(?:\.\d+)?)\s*-\s*(-?\d+(?:\.\d+)?)/);
     if (!match) {
       return 'Please provide two numbers in format: "a - b"';
@@ -64,13 +64,13 @@ class CalculatorAgent {
   /**
    * Multiply two numbers
    */
-  @skill({
+  @Skill({
     id: 'multiply',
     name: 'Multiply',
     description: 'Multiply two numbers (format: "a * b")',
     tags: ['math', 'arithmetic'],
   })
-  async multiply(@textPart() input: string): Promise<string> {
+  async multiply(@TextPart() input: string): Promise<string> {
     const match = input.match(/(-?\d+(?:\.\d+)?)\s*\*\s*(-?\d+(?:\.\d+)?)/);
     if (!match) {
       return 'Please provide two numbers in format: "a * b"';
@@ -83,13 +83,13 @@ class CalculatorAgent {
   /**
    * Divide two numbers
    */
-  @skill({
+  @Skill({
     id: 'divide',
     name: 'Divide',
     description: 'Divide two numbers (format: "a / b")',
     tags: ['math', 'arithmetic'],
   })
-  async divide(@textPart() input: string): Promise<string> {
+  async divide(@TextPart() input: string): Promise<string> {
     const match = input.match(/(-?\d+(?:\.\d+)?)\s*\/\s*(-?\d+(?:\.\d+)?)/);
     if (!match) {
       return 'Please provide two numbers in format: "a / b"';
@@ -106,14 +106,14 @@ class CalculatorAgent {
   /**
    * Evaluate a simple math expression with streaming steps
    */
-  @skill({
+  @Skill({
     id: 'evaluate',
     name: 'Evaluate',
     description: 'Evaluate a math expression step by step',
     tags: ['math', 'streaming'],
   })
-  @streaming()
-  async *evaluate(@textPart() expression: string): AsyncGenerator<string> {
+  @Streaming()
+  async *evaluate(@TextPart() expression: string): AsyncGenerator<string> {
     yield `Evaluating: ${expression}\n\n`;
 
     // Simple tokenizer for basic expressions

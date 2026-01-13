@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import { describe, it, expect } from 'vitest';
-import { skill, streaming } from './skill.js';
+import { Skill, Streaming } from './skill.js';
 import { SKILL_METADATA, STREAMING_METADATA, type SkillMetadata } from './metadata.js';
 
-describe('@skill decorator', () => {
+describe('@Skill decorator', () => {
   it('should register skill metadata on class', () => {
     class TestAgent {
-      @skill({
+      @Skill({
         name: 'Greet',
         description: 'Greet the user',
       })
@@ -25,7 +25,7 @@ describe('@skill decorator', () => {
 
   it('should default skill ID to method name', () => {
     class TestAgent {
-      @skill({
+      @Skill({
         name: 'Echo',
         description: 'Echo input',
       })
@@ -40,7 +40,7 @@ describe('@skill decorator', () => {
 
   it('should allow custom skill ID', () => {
     class TestAgent {
-      @skill({
+      @Skill({
         id: 'custom-id',
         name: 'Custom',
         description: 'Custom ID skill',
@@ -57,7 +57,7 @@ describe('@skill decorator', () => {
 
   it('should register multiple skills on same class', () => {
     class TestAgent {
-      @skill({
+      @Skill({
         name: 'Skill One',
         description: 'First skill',
       })
@@ -65,7 +65,7 @@ describe('@skill decorator', () => {
         return '';
       }
 
-      @skill({
+      @Skill({
         name: 'Skill Two',
         description: 'Second skill',
       })
@@ -82,7 +82,7 @@ describe('@skill decorator', () => {
 
   it('should store all optional properties', () => {
     class TestAgent {
-      @skill({
+      @Skill({
         id: 'full-skill',
         name: 'Full Skill',
         description: 'A skill with all options',
@@ -105,7 +105,7 @@ describe('@skill decorator', () => {
 
   it('should handle undefined optional properties', () => {
     class TestAgent {
-      @skill({
+      @Skill({
         name: 'Minimal',
         description: 'Minimal skill',
       })
@@ -122,10 +122,10 @@ describe('@skill decorator', () => {
   });
 });
 
-describe('@streaming decorator', () => {
+describe('@Streaming decorator', () => {
   it('should mark method as streaming', () => {
     class TestAgent {
-      @streaming()
+      @Streaming()
       streamMethod(): void {}
     }
 
@@ -136,8 +136,8 @@ describe('@streaming decorator', () => {
 
   it('should mark skill as streaming when used with @skill (streaming first)', () => {
     class TestAgent {
-      @streaming()
-      @skill({
+      @Streaming()
+      @Skill({
         name: 'Stream',
         description: 'Streaming skill',
       })
@@ -150,11 +150,11 @@ describe('@streaming decorator', () => {
 
   it('should mark skill as streaming when used with @skill (skill first)', () => {
     class TestAgent {
-      @skill({
+      @Skill({
         name: 'Stream',
         description: 'Streaming skill',
       })
-      @streaming()
+      @Streaming()
       streamSkill(): void {}
     }
 
@@ -164,17 +164,17 @@ describe('@streaming decorator', () => {
 
   it('should not affect non-streaming skills', () => {
     class TestAgent {
-      @skill({
+      @Skill({
         name: 'Normal',
         description: 'Normal skill',
       })
       normalSkill(): void {}
 
-      @skill({
+      @Skill({
         name: 'Streaming',
         description: 'Streaming skill',
       })
-      @streaming()
+      @Streaming()
       streamingSkill(): void {}
     }
 
@@ -188,7 +188,7 @@ describe('@streaming decorator', () => {
 
   it('should handle streaming without existing skill', () => {
     class TestAgent {
-      @streaming()
+      @Streaming()
       justStreaming(): void {}
     }
 

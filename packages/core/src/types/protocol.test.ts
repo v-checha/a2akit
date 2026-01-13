@@ -5,9 +5,6 @@ import {
   isDataPart,
   isTerminalState,
   type Part,
-  type TextPart,
-  type FilePart,
-  type DataPart,
   type TaskState,
 } from './protocol.js';
 

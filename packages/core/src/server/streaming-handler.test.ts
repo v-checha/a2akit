@@ -4,7 +4,7 @@ import { handleStreamingRequest } from './streaming-handler.js';
 import { TaskManager } from '../task/manager.js';
 import { SkillInvoker } from './invoker.js';
 import { SSEWriter } from './sse.js';
-import { A2AAgent, skill, streaming, textPart } from '../decorators/index.js';
+import { A2AAgent, Skill, Streaming, TextPart } from '../decorators/index.js';
 
 // Test agent
 @A2AAgent({
@@ -13,19 +13,19 @@ import { A2AAgent, skill, streaming, textPart } from '../decorators/index.js';
   version: '1.0.0',
 })
 class TestAgent {
-  @skill({ id: 'greet', name: 'Greet', description: 'Greet' })
-  greet(@textPart() name: string): string {
+  @Skill({ id: 'greet', name: 'Greet', description: 'Greet' })
+  greet(@TextPart() name: string): string {
     return `Hello, ${name}!`;
   }
 
-  @skill({ id: 'stream', name: 'Stream', description: 'Stream' })
-  @streaming()
-  async *stream(@textPart() input: string): AsyncGenerator<string> {
+  @Skill({ id: 'stream', name: 'Stream', description: 'Stream' })
+  @Streaming()
+  async *stream(@TextPart() input: string): AsyncGenerator<string> {
     yield `Chunk 1: ${input}`;
     yield 'Chunk 2';
   }
 
-  @skill({ id: 'error', name: 'Error', description: 'Error' })
+  @Skill({ id: 'error', name: 'Error', description: 'Error' })
   error(): string {
     throw new Error('Test error');
   }
@@ -44,7 +44,7 @@ describe('handleStreamingRequest', () => {
     mockResponse = { data: [], headers: {} };
 
     const mockRes = {
-      writeHead: vi.fn((status: number, headers: Record<string, string>) => {
+      writeHead: vi.fn((_status: number, headers: Record<string, string>) => {
         mockResponse.headers = headers;
       }),
       write: vi.fn((data: string) => {

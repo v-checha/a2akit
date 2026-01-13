@@ -14,7 +14,7 @@ npm install @a2akit/fastify @a2akit/core fastify reflect-metadata
 import 'reflect-metadata';
 import Fastify from 'fastify';
 import { createA2APlugin } from '@a2akit/fastify';
-import { A2AAgent, skill, textPart } from '@a2akit/core';
+import { A2AAgent, Skill, TextPart } from '@a2akit/core';
 
 @A2AAgent({
   name: 'Fastify Agent',
@@ -22,11 +22,11 @@ import { A2AAgent, skill, textPart } from '@a2akit/core';
   version: '1.0.0',
 })
 class MyAgent {
-  @skill({
+  @Skill({
     name: 'Hello',
     description: 'Say hello',
   })
-  hello(@textPart() name: string): string {
+  hello(@TextPart() name: string): string {
     return `Hello, ${name}!`;
   }
 }
@@ -88,7 +88,7 @@ const task = taskManager?.get('task-id');
 import 'reflect-metadata';
 import Fastify from 'fastify';
 import { createA2APlugin } from '@a2akit/fastify';
-import { A2AAgent, skill, textPart } from '@a2akit/core';
+import { A2AAgent, Skill, TextPart } from '@a2akit/core';
 
 @A2AAgent({
   name: 'Greeting Agent',
@@ -96,8 +96,8 @@ import { A2AAgent, skill, textPart } from '@a2akit/core';
   version: '1.0.0',
 })
 class GreetingAgent {
-  @skill({ name: 'Greet', description: 'Greet by name' })
-  greet(@textPart() name: string): string {
+  @Skill({ name: 'Greet', description: 'Greet by name' })
+  greet(@TextPart() name: string): string {
     return `Hello, ${name}!`;
   }
 }

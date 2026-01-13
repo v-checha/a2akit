@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@a2akit/core": ["./packages/core/src"],
+      "@a2akit/express": ["./packages/express/src"],
+      "@a2akit/fastify": ["./packages/fastify/src"]
+    }
+  },
+  "include": [
+    "packages/*/src/**/*.ts",
+    "examples/*/src/**/*.ts"
+  ],
+  "exclude": ["node_modules", "**/dist"]
+}

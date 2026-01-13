@@ -5,7 +5,6 @@ import {
   JsonRpcErrorCodes,
   A2AErrorCodes,
   A2AMethods,
-  type JsonRpcResponse,
 } from './jsonrpc.js';
 
 describe('createSuccessResponse', () => {

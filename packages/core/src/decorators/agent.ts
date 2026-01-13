@@ -46,6 +46,7 @@ export interface A2AAgentOptions {
  * ```
  */
 export function A2AAgent(options: A2AAgentOptions): ClassDecorator {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   return function (target: Function): void {
     const metadata: AgentMetadata = {
       name: options.name,

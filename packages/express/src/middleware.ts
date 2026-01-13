@@ -38,8 +38,8 @@ export interface A2AExpressOptions {
  *
  * @A2AAgent({ name: 'My Agent', description: '...', version: '1.0.0' })
  * class MyAgent {
- *   @skill({ name: 'Hello', description: 'Say hello' })
- *   async hello(@textPart() name: string) {
+ *   @Skill({ name: 'Hello', description: 'Say hello' })
+ *   async hello(@TextPart() name: string) {
  *     return `Hello, ${name}!`;
  *   }
  * }

@@ -1,18 +1,18 @@
 import 'reflect-metadata';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { SkillInvoker } from './invoker.js';
 import { A2AAgent } from '../decorators/agent.js';
-import { skill, streaming } from '../decorators/skill.js';
-import { textPart, filePart, dataPart, message, taskContext, parts } from '../decorators/params.js';
+import { Skill, Streaming } from '../decorators/skill.js';
+import { TextPart, FilePart, DataPart, Message, TaskContext, Parts } from '../decorators/params.js';
 import { SkillNotFoundError } from '../errors/index.js';
-import type { Message, Task } from '../types/protocol.js';
+import type { Message as MessageType, Task } from '../types/protocol.js';
 
 describe('SkillInvoker', () => {
   describe('hasSkill', () => {
     it('should return true for existing skill', () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'greet', name: 'Greet', description: 'Greet' })
+        @Skill({ id: 'greet', name: 'Greet', description: 'Greet' })
         greet(): string {
           return 'Hello';
         }
@@ -39,7 +39,7 @@ describe('SkillInvoker', () => {
     it('should return skill metadata', () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'greet', name: 'Greet', description: 'Greeting skill' })
+        @Skill({ id: 'greet', name: 'Greet', description: 'Greeting skill' })
         greet(): string {
           return 'Hello';
         }
@@ -69,8 +69,8 @@ describe('SkillInvoker', () => {
     it('should return true for streaming skill', () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'stream', name: 'Stream', description: 'Stream' })
-        @streaming()
+        @Skill({ id: 'stream', name: 'Stream', description: 'Stream' })
+        @Streaming()
         *stream(): Generator<string> {
           yield 'chunk';
         }
@@ -85,7 +85,7 @@ describe('SkillInvoker', () => {
     it('should return false for non-streaming skill', () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'normal', name: 'Normal', description: 'Normal' })
+        @Skill({ id: 'normal', name: 'Normal', description: 'Normal' })
         normal(): string {
           return 'result';
         }
@@ -112,7 +112,7 @@ describe('SkillInvoker', () => {
     it('should invoke skill and return result', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'greet', name: 'Greet', description: 'Greet' })
+        @Skill({ id: 'greet', name: 'Greet', description: 'Greet' })
         greet(): string {
           return 'Hello, World!';
         }
@@ -143,8 +143,8 @@ describe('SkillInvoker', () => {
     it('should extract text parameter', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'echo', name: 'Echo', description: 'Echo' })
-        echo(@textPart() text: string): string {
+        @Skill({ id: 'echo', name: 'Echo', description: 'Echo' })
+        echo(@TextPart() text: string): string {
           return `Echo: ${text}`;
         }
       }
@@ -162,8 +162,8 @@ describe('SkillInvoker', () => {
     it('should extract file parameter', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'process', name: 'Process', description: 'Process' })
-        process(@filePart() file: { name?: string }): string {
+        @Skill({ id: 'process', name: 'Process', description: 'Process' })
+        process(@FilePart() file: { name?: string }): string {
           return `File: ${file?.name ?? 'unknown'}`;
         }
       }
@@ -171,7 +171,7 @@ describe('SkillInvoker', () => {
       const agent = new TestAgent();
       const invoker = new SkillInvoker(agent, TestAgent);
       const task = createTask();
-      const msg: Message = {
+      const msg: MessageType = {
         role: 'user',
         parts: [{ type: 'file', file: { name: 'test.txt', uri: 'https://example.com' } }],
       };
@@ -184,8 +184,8 @@ describe('SkillInvoker', () => {
     it('should extract data parameter', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'data', name: 'Data', description: 'Data' })
-        processData(@dataPart() data: { value: number }): string {
+        @Skill({ id: 'data', name: 'Data', description: 'Data' })
+        processData(@DataPart() data: { value: number }): string {
           return `Value: ${data?.value}`;
         }
       }
@@ -193,7 +193,7 @@ describe('SkillInvoker', () => {
       const agent = new TestAgent();
       const invoker = new SkillInvoker(agent, TestAgent);
       const task = createTask();
-      const msg: Message = {
+      const msg: MessageType = {
         role: 'user',
         parts: [{ type: 'data', data: { value: 42 } }],
       };
@@ -206,8 +206,8 @@ describe('SkillInvoker', () => {
     it('should extract message parameter', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'msg', name: 'Msg', description: 'Msg' })
-        processMsg(@message() msg: Message): string {
+        @Skill({ id: 'msg', name: 'Msg', description: 'Msg' })
+        processMsg(@Message() msg: MessageType): string {
           return `Role: ${msg.role}`;
         }
       }
@@ -225,8 +225,8 @@ describe('SkillInvoker', () => {
     it('should extract task context parameter', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'task', name: 'Task', description: 'Task' })
-        processTask(@taskContext() task: Task): string {
+        @Skill({ id: 'task', name: 'Task', description: 'Task' })
+        processTask(@TaskContext() task: Task): string {
           return `Task ID: ${task.id}`;
         }
       }
@@ -244,8 +244,8 @@ describe('SkillInvoker', () => {
     it('should extract parts parameter', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'parts', name: 'Parts', description: 'Parts' })
-        processParts(@parts() allParts: unknown[]): string {
+        @Skill({ id: 'parts', name: 'Parts', description: 'Parts' })
+        processParts(@Parts() allParts: unknown[]): string {
           return `Parts: ${allParts.length}`;
         }
       }
@@ -253,7 +253,7 @@ describe('SkillInvoker', () => {
       const agent = new TestAgent();
       const invoker = new SkillInvoker(agent, TestAgent);
       const task = createTask();
-      const msg: Message = {
+      const msg: MessageType = {
         role: 'user',
         parts: [
           { type: 'text', text: 'Hello' },
@@ -269,11 +269,11 @@ describe('SkillInvoker', () => {
     it('should handle multiple parameters', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'multi', name: 'Multi', description: 'Multi' })
+        @Skill({ id: 'multi', name: 'Multi', description: 'Multi' })
         multi(
-          @textPart() text: string,
-          @taskContext() task: Task,
-          @message() msg: Message
+          @TextPart() text: string,
+          @TaskContext() task: Task,
+          @Message() msg: MessageType
         ): string {
           return `${text}-${task.id}-${msg.role}`;
         }
@@ -292,8 +292,8 @@ describe('SkillInvoker', () => {
     it('should use partIndex for specific part', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'indexed', name: 'Indexed', description: 'Indexed' })
-        indexed(@textPart(1) text: string): string {
+        @Skill({ id: 'indexed', name: 'Indexed', description: 'Indexed' })
+        indexed(@TextPart(1) text: string): string {
           return text;
         }
       }
@@ -301,7 +301,7 @@ describe('SkillInvoker', () => {
       const agent = new TestAgent();
       const invoker = new SkillInvoker(agent, TestAgent);
       const task = createTask();
-      const msg: Message = {
+      const msg: MessageType = {
         role: 'user',
         parts: [
           { type: 'text', text: 'First' },
@@ -317,7 +317,7 @@ describe('SkillInvoker', () => {
     it('should default to text when no decorators', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'default', name: 'Default', description: 'Default' })
+        @Skill({ id: 'default', name: 'Default', description: 'Default' })
         default(text: string): string {
           return `Got: ${text}`;
         }
@@ -336,8 +336,8 @@ describe('SkillInvoker', () => {
     it('should return empty string when no text part exists', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'notext', name: 'NoText', description: 'NoText' })
-        notext(@textPart() text: string): string {
+        @Skill({ id: 'notext', name: 'NoText', description: 'NoText' })
+        notext(@TextPart() text: string): string {
           return `Text: "${text}"`;
         }
       }
@@ -345,7 +345,7 @@ describe('SkillInvoker', () => {
       const agent = new TestAgent();
       const invoker = new SkillInvoker(agent, TestAgent);
       const task = createTask();
-      const msg: Message = {
+      const msg: MessageType = {
         role: 'user',
         parts: [{ type: 'data', data: {} }],
       };
@@ -358,8 +358,8 @@ describe('SkillInvoker', () => {
     it('should return undefined for missing file part', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'nofile', name: 'NoFile', description: 'NoFile' })
-        nofile(@filePart() file: unknown): string {
+        @Skill({ id: 'nofile', name: 'NoFile', description: 'NoFile' })
+        nofile(@FilePart() file: unknown): string {
           return `File: ${file ?? 'none'}`;
         }
       }
@@ -377,7 +377,7 @@ describe('SkillInvoker', () => {
     it('should throw when method not found on instance', async () => {
       @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
       class TestAgent {
-        @skill({ id: 'broken', name: 'Broken', description: 'Broken' })
+        @Skill({ id: 'broken', name: 'Broken', description: 'Broken' })
         broken(): string {
           return 'test';
         }
@@ -407,7 +407,7 @@ function createTask(id = 'task-1'): Task {
   };
 }
 
-function createMessage(text: string): Message {
+function createMessage(text: string): MessageType {
   return {
     role: 'user',
     parts: [{ type: 'text', text }],

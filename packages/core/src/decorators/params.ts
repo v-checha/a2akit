@@ -38,13 +38,13 @@ function createParamDecorator(type: ParamType, partIndex?: number): ParameterDec
  *
  * @example
  * ```typescript
- * @skill({ name: 'Echo', description: 'Echo text' })
- * async echo(@textPart() text: string): Promise<string> {
+ * @Skill({ name: 'Echo', description: 'Echo text' })
+ * async echo(@TextPart() text: string): Promise<string> {
  *   return text;
  * }
  * ```
  */
-export function textPart(partIndex?: number): ParameterDecorator {
+export function TextPart(partIndex?: number): ParameterDecorator {
   return createParamDecorator('text', partIndex);
 }
 
@@ -53,13 +53,13 @@ export function textPart(partIndex?: number): ParameterDecorator {
  *
  * @example
  * ```typescript
- * @skill({ name: 'Process File', description: 'Process a file' })
- * async processFile(@filePart() file: FileContent): Promise<string> {
+ * @Skill({ name: 'Process File', description: 'Process a file' })
+ * async processFile(@FilePart() file: FileContent): Promise<string> {
  *   return `Processing ${file.name}`;
  * }
  * ```
  */
-export function filePart(partIndex?: number): ParameterDecorator {
+export function FilePart(partIndex?: number): ParameterDecorator {
   return createParamDecorator('file', partIndex);
 }
 
@@ -68,13 +68,13 @@ export function filePart(partIndex?: number): ParameterDecorator {
  *
  * @example
  * ```typescript
- * @skill({ name: 'Process Data', description: 'Process structured data' })
- * async processData(@dataPart() data: Record<string, unknown>): Promise<string> {
+ * @Skill({ name: 'Process Data', description: 'Process structured data' })
+ * async processData(@DataPart() data: Record<string, unknown>): Promise<string> {
  *   return JSON.stringify(data);
  * }
  * ```
  */
-export function dataPart(partIndex?: number): ParameterDecorator {
+export function DataPart(partIndex?: number): ParameterDecorator {
   return createParamDecorator('data', partIndex);
 }
 
@@ -83,13 +83,13 @@ export function dataPart(partIndex?: number): ParameterDecorator {
  *
  * @example
  * ```typescript
- * @skill({ name: 'Process', description: 'Process full message' })
- * async process(@message() msg: Message): Promise<string> {
+ * @Skill({ name: 'Process', description: 'Process full message' })
+ * async process(@Message() msg: Message): Promise<string> {
  *   return `Parts: ${msg.parts.length}`;
  * }
  * ```
  */
-export function message(): ParameterDecorator {
+export function Message(): ParameterDecorator {
   return createParamDecorator('message');
 }
 
@@ -98,13 +98,13 @@ export function message(): ParameterDecorator {
  *
  * @example
  * ```typescript
- * @skill({ name: 'Context', description: 'Access task context' })
- * async withContext(@taskContext() task: Task): Promise<string> {
+ * @Skill({ name: 'Context', description: 'Access task context' })
+ * async withContext(@TaskContext() task: Task): Promise<string> {
  *   return `Task ID: ${task.id}`;
  * }
  * ```
  */
-export function taskContext(): ParameterDecorator {
+export function TaskContext(): ParameterDecorator {
   return createParamDecorator('task');
 }
 
@@ -113,12 +113,12 @@ export function taskContext(): ParameterDecorator {
  *
  * @example
  * ```typescript
- * @skill({ name: 'All Parts', description: 'Access all parts' })
- * async allParts(@parts() allParts: Part[]): Promise<string> {
+ * @Skill({ name: 'All Parts', description: 'Access all parts' })
+ * async allParts(@Parts() allParts: Part[]): Promise<string> {
  *   return `Parts: ${allParts.length}`;
  * }
  * ```
  */
-export function parts(): ParameterDecorator {
+export function Parts(): ParameterDecorator {
   return createParamDecorator('parts');
 }

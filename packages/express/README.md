@@ -14,7 +14,7 @@ npm install @a2akit/express @a2akit/core express reflect-metadata
 import 'reflect-metadata';
 import express from 'express';
 import { createA2ARouter } from '@a2akit/express';
-import { A2AAgent, skill, textPart } from '@a2akit/core';
+import { A2AAgent, Skill, TextPart } from '@a2akit/core';
 
 @A2AAgent({
   name: 'Express Agent',
@@ -22,11 +22,11 @@ import { A2AAgent, skill, textPart } from '@a2akit/core';
   version: '1.0.0',
 })
 class MyAgent {
-  @skill({
+  @Skill({
     name: 'Hello',
     description: 'Say hello',
   })
-  hello(@textPart() name: string): string {
+  hello(@TextPart() name: string): string {
     return `Hello, ${name}!`;
   }
 }
@@ -98,7 +98,7 @@ app.use(a2aErrorHandler);
 import 'reflect-metadata';
 import express from 'express';
 import { createA2ARouter } from '@a2akit/express';
-import { A2AAgent, skill, textPart } from '@a2akit/core';
+import { A2AAgent, Skill, TextPart } from '@a2akit/core';
 
 @A2AAgent({
   name: 'Greeting Agent',
@@ -106,8 +106,8 @@ import { A2AAgent, skill, textPart } from '@a2akit/core';
   version: '1.0.0',
 })
 class GreetingAgent {
-  @skill({ name: 'Greet', description: 'Greet by name' })
-  greet(@textPart() name: string): string {
+  @Skill({ name: 'Greet', description: 'Greet by name' })
+  greet(@TextPart() name: string): string {
     return `Hello, ${name}!`;
   }
 }

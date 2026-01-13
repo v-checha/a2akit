@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import { describe, it, expect } from 'vitest';
-import { textPart, filePart, dataPart, message, taskContext, parts } from './params.js';
+import { TextPart, FilePart, DataPart, Message, TaskContext, Parts } from './params.js';
 import { PARAM_METADATA, type ParamMetadata } from './metadata.js';
 
 describe('Parameter decorators', () => {
-  describe('@textPart', () => {
+  describe('@TextPart', () => {
     it('should register text parameter metadata', () => {
       class TestAgent {
-        testMethod(@textPart() _text: string): void {}
+        testMethod(@TextPart() _text: string): void {}
       }
 
       const instance = new TestAgent();
@@ -20,7 +20,7 @@ describe('Parameter decorators', () => {
 
     it('should support partIndex', () => {
       class TestAgent {
-        testMethod(@textPart(2) _text: string): void {}
+        testMethod(@TextPart(2) _text: string): void {}
       }
 
       const instance = new TestAgent();
@@ -29,10 +29,10 @@ describe('Parameter decorators', () => {
     });
   });
 
-  describe('@filePart', () => {
+  describe('@FilePart', () => {
     it('should register file parameter metadata', () => {
       class TestAgent {
-        testMethod(@filePart() _file: unknown): void {}
+        testMethod(@FilePart() _file: unknown): void {}
       }
 
       const instance = new TestAgent();
@@ -44,7 +44,7 @@ describe('Parameter decorators', () => {
 
     it('should support partIndex', () => {
       class TestAgent {
-        testMethod(@filePart(1) _file: unknown): void {}
+        testMethod(@FilePart(1) _file: unknown): void {}
       }
 
       const instance = new TestAgent();
@@ -53,10 +53,10 @@ describe('Parameter decorators', () => {
     });
   });
 
-  describe('@dataPart', () => {
+  describe('@DataPart', () => {
     it('should register data parameter metadata', () => {
       class TestAgent {
-        testMethod(@dataPart() _data: unknown): void {}
+        testMethod(@DataPart() _data: unknown): void {}
       }
 
       const instance = new TestAgent();
@@ -68,7 +68,7 @@ describe('Parameter decorators', () => {
 
     it('should support partIndex', () => {
       class TestAgent {
-        testMethod(@dataPart(0) _data: unknown): void {}
+        testMethod(@DataPart(0) _data: unknown): void {}
       }
 
       const instance = new TestAgent();
@@ -77,10 +77,10 @@ describe('Parameter decorators', () => {
     });
   });
 
-  describe('@message', () => {
+  describe('@Message', () => {
     it('should register message parameter metadata', () => {
       class TestAgent {
-        testMethod(@message() _msg: unknown): void {}
+        testMethod(@Message() _msg: unknown): void {}
       }
 
       const instance = new TestAgent();
@@ -91,10 +91,10 @@ describe('Parameter decorators', () => {
     });
   });
 
-  describe('@taskContext', () => {
+  describe('@TaskContext', () => {
     it('should register task parameter metadata', () => {
       class TestAgent {
-        testMethod(@taskContext() _task: unknown): void {}
+        testMethod(@TaskContext() _task: unknown): void {}
       }
 
       const instance = new TestAgent();
@@ -105,10 +105,10 @@ describe('Parameter decorators', () => {
     });
   });
 
-  describe('@parts', () => {
+  describe('@Parts', () => {
     it('should register parts parameter metadata', () => {
       class TestAgent {
-        testMethod(@parts() _allParts: unknown[]): void {}
+        testMethod(@Parts() _allParts: unknown[]): void {}
       }
 
       const instance = new TestAgent();
@@ -123,9 +123,9 @@ describe('Parameter decorators', () => {
     it('should register multiple parameters', () => {
       class TestAgent {
         testMethod(
-          @textPart() _text: string,
-          @taskContext() _task: unknown,
-          @message() _msg: unknown
+          @TextPart() _text: string,
+          @TaskContext() _task: unknown,
+          @Message() _msg: unknown
         ): void {}
       }
 
@@ -145,9 +145,9 @@ describe('Parameter decorators', () => {
     it('should handle mixed parameters with part indices', () => {
       class TestAgent {
         testMethod(
-          @textPart(0) _text1: string,
-          @textPart(1) _text2: string,
-          @filePart(0) _file: unknown
+          @TextPart(0) _text1: string,
+          @TextPart(1) _text2: string,
+          @FilePart(0) _file: unknown
         ): void {}
       }
 
@@ -169,9 +169,10 @@ describe('Parameter decorators', () => {
     it('should throw when used on constructor parameter', () => {
       expect(() => {
         class TestAgent {
-          constructor(@textPart() _text: string) {}
+          constructor(@TextPart() _text: string) {}
         }
-        new TestAgent();
+        // Intentionally calling with wrong args to test error - decorator should throw first
+        new TestAgent(undefined as unknown as string);
       }).toThrow('Parameter decorators can only be used on method parameters');
     });
   });

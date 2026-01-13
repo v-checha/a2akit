@@ -6,9 +6,9 @@
 import 'reflect-metadata';
 import {
   A2AAgent,
-  skill,
-  streaming,
-  textPart,
+  Skill,
+  Streaming,
+  TextPart,
   A2AServer,
 } from '@a2akit/core';
 
@@ -28,41 +28,41 @@ class HelloAgent {
   /**
    * Simple greeting skill
    */
-  @skill({
+  @Skill({
     id: 'greet',
     name: 'Greet',
     description: 'Greet the user by name',
     tags: ['greeting', 'hello'],
     examples: ['Hello, World!', 'Hi there!'],
   })
-  async greet(@textPart() name: string): Promise<string> {
+  async greet(@TextPart() name: string): Promise<string> {
     return `Hello, ${name}! Welcome to the A2A protocol.`;
   }
 
   /**
    * Echo skill that returns the input
    */
-  @skill({
+  @Skill({
     id: 'echo',
     name: 'Echo',
     description: 'Echo back the input message',
     tags: ['utility'],
   })
-  async echo(@textPart() input: string): Promise<string> {
+  async echo(@TextPart() input: string): Promise<string> {
     return `You said: ${input}`;
   }
 
   /**
    * Counting skill with streaming output
    */
-  @skill({
+  @Skill({
     id: 'count',
     name: 'Count',
     description: 'Count to a number with streaming output',
     tags: ['demo', 'streaming'],
   })
-  @streaming()
-  async *count(@textPart() input: string): AsyncGenerator<string> {
+  @Streaming()
+  async *count(@TextPart() input: string): AsyncGenerator<string> {
     const max = parseInt(input, 10) || 5;
     const clampedMax = Math.min(Math.max(1, max), 100);
 
@@ -79,7 +79,7 @@ class HelloAgent {
   /**
    * Info skill that returns agent information
    */
-  @skill({
+  @Skill({
     id: 'info',
     name: 'Info',
     description: 'Get information about this agent',

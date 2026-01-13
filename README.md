@@ -50,7 +50,7 @@ npm install @a2akit/fastify fastify
 
 ```typescript
 import 'reflect-metadata';
-import { A2AAgent, skill, streaming, textPart, A2AServer } from '@a2akit/core';
+import { A2AAgent, Skill, Streaming, TextPart, A2AServer } from '@a2akit/core';
 
 @A2AAgent({
   name: 'Hello Agent',
@@ -58,24 +58,24 @@ import { A2AAgent, skill, streaming, textPart, A2AServer } from '@a2akit/core';
   version: '1.0.0',
 })
 class HelloAgent {
-  @skill({
+  @Skill({
     id: 'greet',
     name: 'Greet',
     description: 'Greet the user',
     tags: ['greeting'],
   })
-  async greet(@textPart() name: string): Promise<string> {
+  async greet(@TextPart() name: string): Promise<string> {
     return `Hello, ${name}!`;
   }
 
-  @skill({
+  @Skill({
     id: 'count',
     name: 'Count',
     description: 'Count with streaming',
     tags: ['demo'],
   })
-  @streaming()
-  async *count(@textPart() input: string): AsyncGenerator<string> {
+  @Streaming()
+  async *count(@TextPart() input: string): AsyncGenerator<string> {
     const max = parseInt(input, 10) || 5;
     for (let i = 1; i <= max; i++) {
       await new Promise(r => setTimeout(r, 500));
@@ -120,12 +120,12 @@ Class decorator for marking a class as an A2A agent.
 })
 ```
 
-#### `@skill(options)`
+#### `@Skill(options)`
 
 Method decorator for marking a method as a skill.
 
 ```typescript
-@skill({
+@Skill({
   id?: string;              // Skill ID (defaults to method name)
   name: string;             // Display name
   description: string;      // Skill description
@@ -136,14 +136,14 @@ Method decorator for marking a method as a skill.
 })
 ```
 
-#### `@streaming()`
+#### `@Streaming()`
 
 Method decorator for marking a skill as streaming. Must return `AsyncGenerator<string>`.
 
 ```typescript
-@skill({ name: 'Stream', description: '...' })
-@streaming()
-async *mySkill(@textPart() input: string): AsyncGenerator<string> {
+@Skill({ name: 'Stream', description: '...' })
+@Streaming()
+async *mySkill(@TextPart() input: string): AsyncGenerator<string> {
   yield 'chunk 1';
   yield 'chunk 2';
 }
@@ -153,12 +153,12 @@ async *mySkill(@textPart() input: string): AsyncGenerator<string> {
 
 | Decorator | Description |
 |-----------|-------------|
-| `@textPart(index?)` | Extract text from message parts |
-| `@filePart(index?)` | Extract file content from message parts |
-| `@dataPart(index?)` | Extract structured data from message parts |
-| `@message()` | Get the full Message object |
-| `@taskContext()` | Get the full Task object |
-| `@parts()` | Get all message parts |
+| `@TextPart(index?)` | Extract text from message parts |
+| `@FilePart(index?)` | Extract file content from message parts |
+| `@DataPart(index?)` | Extract structured data from message parts |
+| `@Message()` | Get the full Message object |
+| `@TaskContext()` | Get the full Task object |
+| `@Parts()` | Get all message parts |
 
 ### Server Options
 

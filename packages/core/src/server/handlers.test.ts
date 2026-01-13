@@ -12,26 +12,26 @@ import {
 import { TaskManager } from '../task/manager.js';
 import { SkillInvoker } from './invoker.js';
 import { A2AAgent } from '../decorators/agent.js';
-import { skill, streaming } from '../decorators/skill.js';
-import { textPart } from '../decorators/params.js';
+import { Skill, Streaming } from '../decorators/skill.js';
+import { TextPart } from '../decorators/params.js';
 import { InvalidParamsError, TaskNotFoundError } from '../errors/index.js';
 
 // Test agent class
 @A2AAgent({ name: 'Test Agent', description: 'Test', version: '1.0.0' })
 class TestAgent {
-  @skill({ id: 'greet', name: 'Greet', description: 'Greet' })
-  greet(@textPart() name: string): string {
+  @Skill({ id: 'greet', name: 'Greet', description: 'Greet' })
+  greet(@TextPart() name: string): string {
     return `Hello, ${name}!`;
   }
 
-  @skill({ id: 'error', name: 'Error', description: 'Error' })
+  @Skill({ id: 'error', name: 'Error', description: 'Error' })
   error(): string {
     throw new Error('Intentional error');
   }
 
-  @skill({ id: 'stream', name: 'Stream', description: 'Stream' })
-  @streaming()
-  async *stream(@textPart() input: string): AsyncGenerator<string> {
+  @Skill({ id: 'stream', name: 'Stream', description: 'Stream' })
+  @Streaming()
+  async *stream(@TextPart() input: string): AsyncGenerator<string> {
     yield `Part 1: ${input}`;
     yield 'Part 2';
   }

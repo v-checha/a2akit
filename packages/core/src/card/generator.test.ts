@@ -8,7 +8,7 @@ import {
   PROTOCOL_VERSION,
 } from './generator.js';
 import { A2AAgent } from '../decorators/agent.js';
-import { skill, streaming } from '../decorators/skill.js';
+import { Skill, Streaming } from '../decorators/skill.js';
 
 describe('generateAgentCard', () => {
   it('should generate agent card from decorated class', () => {
@@ -18,7 +18,7 @@ describe('generateAgentCard', () => {
       version: '1.0.0',
     })
     class TestAgent {
-      @skill({ name: 'Greet', description: 'Greet the user' })
+      @Skill({ name: 'Greet', description: 'Greet the user' })
       greet(): string {
         return 'Hello';
       }
@@ -64,13 +64,13 @@ describe('generateAgentCard', () => {
       version: '1.0.0',
     })
     class MultiSkillAgent {
-      @skill({ id: 'skill-1', name: 'Skill One', description: 'First skill' })
+      @Skill({ id: 'skill-1', name: 'Skill One', description: 'First skill' })
       skillOne(): void {}
 
-      @skill({ id: 'skill-2', name: 'Skill Two', description: 'Second skill', tags: ['tag1'] })
+      @Skill({ id: 'skill-2', name: 'Skill Two', description: 'Second skill', tags: ['tag1'] })
       skillTwo(): void {}
 
-      @skill({
+      @Skill({
         id: 'skill-3',
         name: 'Skill Three',
         description: 'Third skill',
@@ -104,11 +104,11 @@ describe('generateAgentCard', () => {
       version: '1.0.0',
     })
     class StreamingAgent {
-      @skill({ name: 'Normal', description: 'Normal skill' })
+      @Skill({ name: 'Normal', description: 'Normal skill' })
       normal(): void {}
 
-      @skill({ name: 'Stream', description: 'Streaming skill' })
-      @streaming()
+      @Skill({ name: 'Stream', description: 'Streaming skill' })
+      @Streaming()
       stream(): void {}
     }
 
@@ -124,7 +124,7 @@ describe('generateAgentCard', () => {
       version: '1.0.0',
     })
     class NonStreamingAgent {
-      @skill({ name: 'Normal', description: 'Normal skill' })
+      @Skill({ name: 'Normal', description: 'Normal skill' })
       normal(): void {}
     }
 
@@ -190,10 +190,10 @@ describe('getSkillIds', () => {
   it('should return all skill IDs', () => {
     @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
     class TestAgent {
-      @skill({ id: 'greet', name: 'Greet', description: 'Greet' })
+      @Skill({ id: 'greet', name: 'Greet', description: 'Greet' })
       greet(): void {}
 
-      @skill({ id: 'echo', name: 'Echo', description: 'Echo' })
+      @Skill({ id: 'echo', name: 'Echo', description: 'Echo' })
       echo(): void {}
     }
 
@@ -217,7 +217,7 @@ describe('getSkillIds', () => {
 describe('hasSkill', () => {
   @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
   class TestAgent {
-    @skill({ id: 'greet', name: 'Greet', description: 'Greet' })
+    @Skill({ id: 'greet', name: 'Greet', description: 'Greet' })
     greet(): void {}
   }
 
@@ -234,8 +234,8 @@ describe('supportsStreaming', () => {
   it('should return true when agent has streaming skills', () => {
     @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
     class StreamingAgent {
-      @skill({ name: 'Stream', description: 'Stream' })
-      @streaming()
+      @Skill({ name: 'Stream', description: 'Stream' })
+      @Streaming()
       stream(): void {}
     }
 
@@ -245,7 +245,7 @@ describe('supportsStreaming', () => {
   it('should return false when agent has no streaming skills', () => {
     @A2AAgent({ name: 'Test', description: 'Test', version: '1.0.0' })
     class NonStreamingAgent {
-      @skill({ name: 'Normal', description: 'Normal' })
+      @Skill({ name: 'Normal', description: 'Normal' })
       normal(): void {}
     }
 

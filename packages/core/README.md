@@ -12,7 +12,7 @@ npm install @a2akit/core reflect-metadata
 
 ```typescript
 import 'reflect-metadata';
-import { A2AAgent, skill, textPart, A2AServer } from '@a2akit/core';
+import { A2AAgent, Skill, TextPart, A2AServer } from '@a2akit/core';
 
 @A2AAgent({
   name: 'Greeting Agent',
@@ -20,11 +20,11 @@ import { A2AAgent, skill, textPart, A2AServer } from '@a2akit/core';
   version: '1.0.0',
 })
 class GreetingAgent {
-  @skill({
+  @Skill({
     name: 'Greet',
     description: 'Greet the user by name',
   })
-  greet(@textPart() name: string): string {
+  greet(@TextPart() name: string): string {
     return `Hello, ${name}!`;
   }
 }
@@ -57,12 +57,12 @@ Class decorator for marking a class as an A2A Agent.
 })
 ```
 
-#### @skill(options)
+#### @Skill(options)
 
 Method decorator for marking a method as a skill.
 
 ```typescript
-@skill({
+@Skill({
   id?: string;               // Default: method name
   name: string;              // Required: Skill name
   description: string;       // Required: Skill description
@@ -73,13 +73,13 @@ Method decorator for marking a method as a skill.
 })
 ```
 
-#### @streaming()
+#### @Streaming()
 
 Method decorator for marking a skill as streaming.
 
 ```typescript
-@skill({ name: 'Stream', description: 'Stream response' })
-@streaming()
+@Skill({ name: 'Stream', description: 'Stream response' })
+@Streaming()
 async *streamResponse(): AsyncGenerator<string> {
   yield 'Part 1...';
   yield 'Part 2...';
@@ -90,12 +90,12 @@ async *streamResponse(): AsyncGenerator<string> {
 
 | Decorator | Description |
 |-----------|-------------|
-| `@textPart(index?)` | Extract text content from message |
-| `@filePart(index?)` | Extract file content from message |
-| `@dataPart(index?)` | Extract structured data from message |
-| `@message()` | Get the full message object |
-| `@taskContext()` | Get the task context |
-| `@parts()` | Get all message parts |
+| `@TextPart(index?)` | Extract text content from message |
+| `@FilePart(index?)` | Extract file content from message |
+| `@DataPart(index?)` | Extract structured data from message |
+| `@Message()` | Get the full message object |
+| `@TaskContext()` | Get the task context |
+| `@Parts()` | Get all message parts |
 
 ### Server
 
@@ -224,8 +224,8 @@ isValidMessage(message);   // Returns boolean
   version: '1.0.0',
 })
 class Calculator {
-  @skill({ name: 'Add', description: 'Add two numbers' })
-  add(@dataPart() data: { a: number; b: number }): string {
+  @Skill({ name: 'Add', description: 'Add two numbers' })
+  add(@DataPart() data: { a: number; b: number }): string {
     return `Result: ${data.a + data.b}`;
   }
 }
@@ -240,9 +240,9 @@ class Calculator {
   version: '1.0.0',
 })
 class Counter {
-  @skill({ name: 'Count', description: 'Count to N' })
-  @streaming()
-  async *count(@textPart() input: string): AsyncGenerator<string> {
+  @Skill({ name: 'Count', description: 'Count to N' })
+  @Streaming()
+  async *count(@TextPart() input: string): AsyncGenerator<string> {
     const n = parseInt(input, 10);
     for (let i = 1; i <= n; i++) {
       yield `${i}...`;

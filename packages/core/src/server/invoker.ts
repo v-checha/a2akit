@@ -72,6 +72,7 @@ export class SkillInvoker {
     }
 
     const args = this.extractArgs(skill.methodName, message, task);
+    // eslint-disable-next-line @typescript-eslint/ban-types
     const method = (this.agentInstance as Record<string, Function>)[skill.methodName];
 
     if (typeof method !== 'function') {

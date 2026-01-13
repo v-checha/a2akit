@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { A2AServer } from './http.js';
-import { A2AAgent, skill, streaming, textPart } from '../decorators/index.js';
+import { A2AAgent, Skill, Streaming, TextPart } from '../decorators/index.js';
 
 // Test agent
 @A2AAgent({
@@ -10,18 +10,18 @@ import { A2AAgent, skill, streaming, textPart } from '../decorators/index.js';
   version: '1.0.0',
 })
 class TestAgent {
-  @skill({ id: 'greet', name: 'Greet', description: 'Greet' })
-  greet(@textPart() name: string): string {
+  @Skill({ id: 'greet', name: 'Greet', description: 'Greet' })
+  greet(@TextPart() name: string): string {
     return `Hello, ${name}!`;
   }
 
-  @skill({ id: 'stream', name: 'Stream', description: 'Stream' })
-  @streaming()
-  async *stream(@textPart() input: string): AsyncGenerator<string> {
+  @Skill({ id: 'stream', name: 'Stream', description: 'Stream' })
+  @Streaming()
+  async *stream(@TextPart() input: string): AsyncGenerator<string> {
     yield `Chunk: ${input}`;
   }
 
-  @skill({ id: 'error', name: 'Error', description: 'Error' })
+  @Skill({ id: 'error', name: 'Error', description: 'Error' })
   error(): string {
     throw new Error('Test error');
   }

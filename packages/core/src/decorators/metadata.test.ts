@@ -9,13 +9,10 @@ import {
   getSkillsMetadata,
   getParamMetadata,
   isStreamingMethod,
-  type AgentMetadata,
-  type SkillMetadata,
-  type ParamMetadata,
 } from './metadata.js';
 import { A2AAgent } from './agent.js';
-import { skill, streaming } from './skill.js';
-import { textPart, message } from './params.js';
+import { Skill, Streaming } from './skill.js';
+import { TextPart, Message } from './params.js';
 
 describe('Metadata utilities', () => {
   describe('getAgentMetadata', () => {
@@ -45,10 +42,10 @@ describe('Metadata utilities', () => {
   describe('getSkillsMetadata', () => {
     it('should return all skills from decorated class', () => {
       class TestAgent {
-        @skill({ name: 'Skill One', description: 'First skill' })
+        @Skill({ name: 'Skill One', description: 'First skill' })
         skillOne(): void {}
 
-        @skill({ name: 'Skill Two', description: 'Second skill' })
+        @Skill({ name: 'Skill Two', description: 'Second skill' })
         skillTwo(): void {}
       }
 
@@ -69,7 +66,7 @@ describe('Metadata utilities', () => {
   describe('getParamMetadata', () => {
     it('should return parameter metadata from method', () => {
       class TestAgent {
-        testMethod(@textPart() _text: string, @message() _msg: unknown): void {}
+        testMethod(@TextPart() _text: string, @Message() _msg: unknown): void {}
       }
 
       const instance = new TestAgent();
@@ -105,7 +102,7 @@ describe('Metadata utilities', () => {
   describe('isStreamingMethod', () => {
     it('should return true for streaming method', () => {
       class TestAgent {
-        @streaming()
+        @Streaming()
         streamMethod(): void {}
       }
 
